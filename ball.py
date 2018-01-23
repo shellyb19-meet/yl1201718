@@ -1,3 +1,5 @@
+from turtle import *
+colormode(255)
 class Ball(Turtle):
 	"""docstring for ClassName"""
 	def __init__(self, x,y,dx,dy,r,color):
@@ -7,7 +9,6 @@ class Ball(Turtle):
 		self.dx=dx
 		self.dy=dy
 		self.r=r
-		self.color=color
 		self.penup()
 		self.goto(x,y)
 		self.shape("circle")
@@ -25,13 +26,13 @@ class Ball(Turtle):
 		self.goto(new_x,new_y)
 
 		if(right_side_ball>screen_width):
-			dx=-dx
-		if(left_side_ball<screen_width):
-			dx=-dx
+			self.dx=-1*self.dx
+		if(left_side_ball<-screen_width):
+			self.dx=-1*self.dx
 		if(up_side_ball>screen_height):
-			yx=-yx
-		if(down_side_ball<screen_height):
-			yx=-yx
+			self.dy=-1*self.dy
+		if(down_side_ball<-screen_height):
+			self.dy=-1*self.dy
 
 
 
