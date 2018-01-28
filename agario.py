@@ -4,10 +4,25 @@ import random
 from ball import Ball
 import math
 
+o=55
+oo=125
+heart=turtle.clone()
+heart.up()
+turtle.addshape("heart.gif")
+heart.shape("heart.gif")
+heart1=heart.clone()
+heart2=heart.clone()
+heart.goto(0,o)
+heart1.goto(oo,o)
+heart2.goto(oo-oo*2,o)
+hear=3
+
+turtle.bgcolor(random.randint(0,225),random.randint(0,225),random.randint(0,225))
 turtle.tracer(0)
-turtle.hideturtle()
+turtle.shape("blank")
 RUNNING=True
 SLEEP=0.0077
+score = 1
 SCREEN_WIDTH=turtle.getcanvas().winfo_width()/2
 SCREEN_HEIGHT=turtle.getcanvas().winfo_height()/2
 red=random.randint(0,255)
@@ -73,7 +88,7 @@ def chek_all_balls_collision():
 				while new_dy==0:
 					new_dy=random.randint(MINIMUM_BALL_DY,MAXIMUM_BALL_DY)
 				new_r=random.randint(MINIMUM_BALL_RADIUS,MAXIMUM_BALL_RADIUS)
-				new_color=(random.random(),random.random(),random.random())
+				new_color=(int(random.random()*255),int(random.random()*255),int(random.random()*255))
 				if(r_a>r_b):
 					ball_a.r+=1
 					ball_a.shapesize(ball_a.r/10)
@@ -81,7 +96,7 @@ def chek_all_balls_collision():
 					ball_b.dx=new_dx
 					ball_b.dy=new_dy
 					ball_b.r=new_r
-					ball_b.color=new_color
+					ball_b.color(new_color)
 					ball_b.shapesize(new_r/10)
 				else:
 					ball_b.r+=1
@@ -90,10 +105,12 @@ def chek_all_balls_collision():
 					ball_a.dx=new_dx
 					ball_a.dy=new_dy
 					ball_a.r=new_r
-					ball_a.color=new_color
+					ball_a.color(new_color)
 					ball_a.shapesize(new_r/10)
 
+
 def check_myball_collision():
+	global score,hear
 	for balli in BALLS:
 		if(collide(balli,MY_BALL)):
 			r_m=MY_BALL.r
@@ -103,10 +120,29 @@ def check_myball_collision():
 			neww_dx=random.randint(MINIMUM_BALL_DX,MAXIMUM_BALL_DX)
 			neww_dy=random.randint(MINIMUM_BALL_DY,MAXIMUM_BALL_DY)
 			neww_r=random.randint(MINIMUM_BALL_RADIUS,MAXIMUM_BALL_RADIUS)
-			neww_color=(random.random(),random.random(),random.random())
+			neww_color=(int(random.random()*255),int(random.random()*255),int(random.random()*255))
 			if(r_ba>r_m):
 				print('ended', r_ba, r_m)
-				return False
+				hear=hear-1
+				if(hear==2):
+					heart2.hideturtle()
+					balli.goto(neww_x,neww_y)
+					balli.dx=neww_dx
+					balli.dy=neww_dy
+					balli.r=neww_r
+					balli.color(neww_color)
+					balli.shapesize(neww_r/10)
+				if(hear==1):
+					heart.hideturtle()
+					balli.goto(neww_x,neww_y)
+					balli.dx=neww_dx
+					balli.dy=neww_dy
+					balli.r=neww_r
+					balli.color(neww_color)
+					balli.shapesize(neww_r/10)
+				if(hear==0):
+					heart1.hideturtle()
+					return False
 			else:
 				MY_BALL.r += 1
 				MY_BALL.shapesize(MY_BALL.r/10)
@@ -114,8 +150,12 @@ def check_myball_collision():
 				balli.dx=neww_dx
 				balli.dy=neww_dy
 				balli.r=neww_r
-				balli.color=neww_color
+				balli.color(neww_color)
 				balli.shapesize(neww_r/10)
+				turtle.clear()
+				turtle.home()
+				turtle.write("SCORE: " + str(score), True, align="center",font=("Arial", 25, "normal"))
+				score=score+1
 	return True
 
 def movearound(event):
@@ -130,7 +170,7 @@ while RUNNING==True:
 		SCREEN_WIDTH=turtle.getcanvas().winfo_width()/2
 	move_all_balls()
 	chek_all_balls_collision()
-	MY_BALL.move(SCREEN_WIDTH,SCREEN_HEIGHT)
+	# MY_BALL.move(SCREEN_WIDTH,SCREEN_HEIGHT)
 	RUNNING=check_myball_collision()
 	turtle.getscreen().update()
 	time.sleep(SLEEP)
