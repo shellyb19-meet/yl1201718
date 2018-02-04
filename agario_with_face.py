@@ -197,10 +197,9 @@ while RUNNING==True:
 	
 	print(faces)
 	if len(faces)>0:
-		xf=faces[0][0]-SCREEN_WIDTH
-		yf=SCREEN_HEIGHT-faces[0][1]
+		xf=faces[0][0]*2-SCREEN_WIDTH
+		yf=SCREEN_HEIGHT-faces[0][1]*2
 		MY_BALL.goto(-xf,yf)
-		turtle.getscreen().update()
 	p=p+1
 	turtle.getscreen().update()
 	time.sleep(SLEEP)
