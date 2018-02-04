@@ -33,9 +33,9 @@ blue=random.randint(0,255)
 
 
 MY_BALL=Ball(5,7,0,0,30, (red,green,blue))
-NUMBER_OF_BALLS=5
-MINIMUM_BALL_RADIUS=10
-MAXIMUM_BALL_RADIUS=70
+NUMBER_OF_BALLS=7
+MINIMUM_BALL_RADIUS=5
+MAXIMUM_BALL_RADIUS=50
 MINIMUM_BALL_DX=-3
 MAXIMUM_BALL_DX=3
 MINIMUM_BALL_DY=-3
@@ -158,16 +158,10 @@ def check_myball_collision():
 				turtle.write("SCORE: " + str(score), True, align="center",font=("Arial", 25, "normal"))
 				score=score+1
 	return True
-p=0
+
 def movearound(event):
 	MY_BALL.goto(event.x-SCREEN_WIDTH,SCREEN_HEIGHT-event.y)
 
-face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
-cap = cv2.VideoCapture(0)
-
-#turtle.getcanvas().bind(face_move,movearound)
-#turtle.getscreen().listen()
 turtle.getcanvas().bind("<Motion>",movearound)
 turtle.getscreen().listen()
 
@@ -177,40 +171,13 @@ while RUNNING==True:
 		SCREEN_WIDTH=turtle.getcanvas().winfo_width()/2
 	move_all_balls()
 	chek_all_balls_collision()
-	#MY_BALL.move(SCREEN_WIDTH,SCREEN_HEIGHT)
+	MY_BALL.move(SCREEN_WIDTH,SCREEN_HEIGHT)
 	RUNNING=check_myball_collision()
-	
-		
-	ret, frame = cap.read()
-	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-	faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, flags=0, minSize=(128,128))
-	# for (x,y,w,h) in faces:
-	# 	cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)
-	# 	roi_gray = gray[y:y+h, x:x+w]
-	# 	roi_color = frame[y:y+h, x:x+w]
-	# 	eyes = eye_cascade.detectMultiScale(roi_gray)
-	# 	for (ex,ey,ew,eh) in eyes:
-	# 		cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
-	# cv2.imshow('frame',frame)
-	# if cv2.waitKey(1) & 0xFF == ord('q'):
-	# 	break
-	
-	print(faces)
-	if len(faces)>0:
-		xf=faces[0][0]-SCREEN_WIDTH
-		yf=SCREEN_HEIGHT-faces[0][1]
-		MY_BALL.goto(-xf,yf)
-		turtle.getscreen().update()
-	p=p+1
 	turtle.getscreen().update()
 	time.sleep(SLEEP)
-
-cap.release()
-cv2.destroyAllWindows()
 turtle.clear()
 turtle.home()
 turtle.write("GAME OVER", True, align="center",font=("Arial",35, "normal"))
-
 
 
 
